@@ -12,7 +12,7 @@ router.post('/create', (req, res) => {
     // VALIDATE
 
     // SAVE DATA
-    req.cubes.push(cube);
+    req.cubes.push({id: req.cubes[req.cubes.length - 1].id + 1, ...cube});
 
     fs.writeFile(path.resolve('src', 'db.json'), JSON.stringify(req.cubes, '', 4), {encoding: 'utf-8'})
         .then(() => {
