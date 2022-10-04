@@ -1,5 +1,6 @@
 const express = require('express');
 const handlebars = require('express-handlebars');
+const { cubesMiddleware } = require('./middlewares');
 const routes = require('./routes');
 
 const app = express();
@@ -16,7 +17,8 @@ app.set('views', './src/views');
 // STATIC FILES
 app.use('/static', express.static('public'));
 
-
+// MIDDLEWARES
+app.use(cubesMiddleware);
 app.use(routes);
 
 app.listen(port, () => {

@@ -1,5 +1,7 @@
 exports.index = (req, res) => {
-    res.render('index');
+    res.render('index', {
+        cubes: req.cubes,
+    });
 };
 
 exports.about = (req, res) => {
