@@ -7,6 +7,9 @@ const app = express();
 const port = 5000;
 
 
+// const cubes = require('./db.json');
+// console.log(cubes);
+
 // TEMPLATE ENGINE
 app.engine('hbs', handlebars.engine({
     extname: 'hbs',
@@ -18,6 +21,7 @@ app.set('views', './src/views');
 app.use('/static', express.static('public'));
 
 // MIDDLEWARES
+app.use(express.urlencoded({extended: false}));
 app.use(cubesMiddleware);
 app.use(routes);
 
