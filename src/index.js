@@ -14,7 +14,7 @@ app.set('view engine', 'hbs');
 app.set('views', './src/views');
 
 // STATIC FILES
-app.use(express.static(__dirname + '/public'));
+app.use('/static', express.static('public'));
 
 
 app.get('/', (req, res) => {
