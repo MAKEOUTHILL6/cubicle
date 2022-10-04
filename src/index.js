@@ -1,12 +1,24 @@
 const express = require('express');
+const handlebars = require('express-handlebars');
 
 
 const app = express();
 const port = 5000;
 
 
+// TEMPLATE ENGINE
+app.engine('hbs', handlebars.engine({
+    extname: 'hbs',
+}));
+app.set('view engine', 'hbs');
+app.set('views', './src/views');
+
+// STATIC FILES
+app.use(express.static(__dirname + '/public'));
+
+
 app.get('/', (req, res) => {
-    res.send('It works');
+    res.render('index');
 });
 
 
