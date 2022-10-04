@@ -24,4 +24,14 @@ router.post('/create', (req, res) => {
 
 });
 
+
+router.get('/details/:id', (req, res) => {
+    const currentCubeId = req.params.id;
+    let cube = {}
+    let currentCubeFilter = req.cubes.filter(x => x.id == currentCubeId).map(x => cube=x);
+    res.render('details', {
+        cube,
+    });
+})
+
 module.exports = router;
