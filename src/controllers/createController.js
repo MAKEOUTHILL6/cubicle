@@ -1,34 +1,23 @@
 const router = require('express').Router();
 const fs = require('node:fs/promises');
 const path = require('path');
+const {Cube} = require('../models/Cube');
 
 router.get('/create', (req, res) => {
     res.render('create');
 });
 
-router.post('/create', (req, res) => {
-    let cube = req.body;
-
-    // VALIDATE
-
-    // SAVE DATA
-    req.cubes.push({id: req.cubes[req.cubes.length - 1].id + 1, ...cube});
-
-    fs.writeFile(path.resolve('src', 'db.json'), JSON.stringify(req.cubes, '', 4), {encoding: 'utf-8'})
-        .then(() => {
-            res.redirect('/');
-        })
-        .catch(err => {
-            res.status(400).send(err);
-        })
-
+router.post('/create', async (req, res) => {
+    let cube = await Cube.create(req.body);
+    res.redirect('/');
 });
 
 
 router.get('/details/:id', (req, res) => {
     const currentCubeId = req.params.id;
-    let cube = {}
-    let currentCubeFilter = req.cubes.filter(x => x.id == currentCubeId).map(x => cube=x);
+    let cube = Cube.findById(currentCubeId);
+
+    console.log(cube);
     res.render('details', {
         cube,
     });
