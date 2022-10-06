@@ -24,4 +24,23 @@ router.get('/attach/:id', async (req, res) => {
 });
 
 
+router.post('/attach/:id', async (req, res) => {
+    const accessoryId = req.body.accessory;
+    const cubeId = req.params.id;
+
+    const cube = await Cube.findById(cubeId);
+    const accessory = await Accessory.findById(accessoryId);
+    
+    // ADDING RELATION TO CUBES 
+    cube.accessories.push(accessory)
+    accessory.cubes.push(cube);
+
+    await cube.save();
+    await accessory.save();
+
+
+    res.redirect(`/cube/details/${req.params.id}`);
+})
+
+
 module.exports = router;
