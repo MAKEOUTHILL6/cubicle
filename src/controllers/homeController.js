@@ -1,8 +1,10 @@
 const router = require('express').Router();
+const {Cube} = require('../models/Cube');
 
-router.get('/', (req, res) => {
+router.get('/', async (req, res) => {
+    let cubes = await Cube.find().lean();
     res.render('index', {
-        cubes: req.cubes,
+        cubes
     });
 });
 
