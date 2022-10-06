@@ -8,6 +8,12 @@ const accessorySchema = new mongoose.Schema({
     imageUrl: {
         type: String,
         required: true,
+        // validate: {
+        //     validator: function(){
+        //         return this.imageUrl.startsWith('https')
+        //     },
+        //     message: 'Image url should...'
+        // }
     },
     description: {
         type: String,

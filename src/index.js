@@ -1,5 +1,4 @@
 const express = require('express');
-const { cubesMiddleware } = require('./middlewares');
 const routes = require('./routes');
 const { initializeDatabase } = require('./config/database');
 const app = express();
@@ -13,7 +12,6 @@ app.use('/static', express.static('public'));
 
 // MIDDLEWARES
 app.use(express.urlencoded({ extended: false }));
-app.use(cubesMiddleware);
 app.use(routes);
 
 
