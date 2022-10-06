@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const cubeSchema = new mongoose.Schema({
-    _id: mongoose.Types.ObjectId,
+    _id: mongoose.Types.ObjectId, 
     name: {
         type: String,
         required: true,
@@ -22,6 +22,8 @@ const cubeSchema = new mongoose.Schema({
         min: 1,
         max: 10,
     },
+    // ADD ACCESSORY RELATION
+    
 });
 
 
