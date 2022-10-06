@@ -12,7 +12,7 @@ const cubeSchema = new mongoose.Schema({
     },
     imageUrl: {
         type: String,
-        required: true, 
+        required: true,
 
     },
     difficultyLevel: {
@@ -21,12 +21,17 @@ const cubeSchema = new mongoose.Schema({
         min: 1,
         max: 6,
     },
-    // ADD ACCESSORY RELATION
-    
+    // ADD ACCESSORY RELATION (ONE CUBE TO MANY ACCESSORIES)
+    accessories: [
+        {
+            type: mongoose.Types.ObjectId,
+            ref: 'Accessory',
+        }
+    ],
 });
 
 
-cubeSchema.path('imageUrl').validate(function() {
+cubeSchema.path('imageUrl').validate(function () {
     return this.imageUrl.startsWith('http' || 'https');
 }, `Image URL should start with https or http`);
 

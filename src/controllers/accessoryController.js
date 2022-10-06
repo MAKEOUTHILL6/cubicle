@@ -12,6 +12,4 @@ router.post('/create-accessory', async (req, res) => {
 });
 
 
-
-
 module.exports = router;

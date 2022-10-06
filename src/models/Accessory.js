@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
- 
+
 const accessorySchema = new mongoose.Schema({
     name: {
         type: String,
@@ -21,12 +21,24 @@ const accessorySchema = new mongoose.Schema({
         maxLength: 150,
     },
 
-    // ADD REFERENCE TO CUBES MODEL
+    // ADD REFERENCE TO CUBES MODEL (ONE ACCESSORY TO ONE CUBE)
+    // cube: {
+    //     type: mongoose.Types.ObjectId,
+    //     ref: 'Cube'
+    // },
 
+
+    // (ONE ACCESSORY TO MANY CUBES)
+    cubes: [
+        {
+            type: mongoose.Types.ObjectId,
+            ref: 'Cube'
+        },
+    ]
+    
 });
 
-
-accessorySchema.path('imageUrl').validate(function(){
+accessorySchema.path('imageUrl').validate(function () {
     return this.imageUrl.startsWith('http' || 'https');
 }, `Image URL should start with https or http`);
 
