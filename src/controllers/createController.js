@@ -1,9 +1,6 @@
 const router = require('express').Router();
-const fs = require('node:fs/promises');
-const path = require('path');
 const {Cube} = require('../models/Cube');
-const getCubeAccessories = require('../services/getCubeAccessories');
-
+const cubeService = require('../services/cubeService');
 
 
 router.get('/create', (req, res) => {
@@ -19,8 +16,8 @@ router.post('/create', async (req, res) => {
 router.get('/details/:id', async (req, res) => {
 
     const currentCubeId = req.params.id;
-    let cube = await Cube.findById(currentCubeId).lean();
-    let accessoriesId = cube.accessories;
+    // GET THE CUBE AND HIS ACCESSORIES RELATIONS IN THE SERVICE OR YOU CAN CHAIN THE POPULATE
+    let cube = await cubeService.getOne(currentCubeId).lean();
 
     res.render('details', {
         cube,
