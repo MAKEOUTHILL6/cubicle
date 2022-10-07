@@ -12,20 +12,21 @@ router.get('/about', (req, res) => {
     res.render('about');
 });
 
-router.post('/search', (req, res) => {
-    let currentSearch = req.body;
-    let searchedCubeName = currentSearch.search;
-    let searchedCubeDiffFrom = currentSearch.from;
-    let searchedCubeDiffTo = currentSearch.to;
-    let cubesArray = req.cubes;
+router.post('/search', async (req, res) => {
 
-    let searchedCubes = cubesArray
-    .filter(x => x.name.startsWith(searchedCubeName))
-    .filter(x => x.difficulty >= searchedCubeDiffFrom)
-    .filter(x => x.difficulty <= searchedCubeDiffTo);
-    
+    let search = req.body.search
+    let from = Number(req.body.from) || 0;
+    let to = Number(req.body.to) || 6;
+
+    // WITH MONGODB 
+    // let cubes = await Cube.find({name: {$regex: new RegExp(search, 'i')}, difficultyLevel: {$gt: from}, difficultyLevel: {$lt: to}}).lean();
+
+    // WITH MONGOOSE
+    let cubes = await Cube.find({name: {$regex: new RegExp(search, 'i')}})
+        .where('difficultyLevel').lte(to).gte(from).lean();
+
     res.render('index', {
-        cubes: searchedCubes,
+        cubes,
     });
 });
 
