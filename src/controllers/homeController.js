@@ -31,4 +31,9 @@ router.post('/search', async (req, res) => {
 });
 
 
+router.get('/not-found', (req, res) => {
+    res.render('404');
+})
+
+
 module.exports = router;
