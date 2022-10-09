@@ -10,10 +10,8 @@ router.post('/register', async (req, res) => {
 
     let createdUser = await authService.register(req.body);
 
-    console.log(createdUser);
-
     if (createdUser) {
-        res.redirect('/login');
+        res.redirect('/auth/login');
     } else {
         res.redirect('/not-found')
     }
@@ -27,7 +25,16 @@ router.get('/login', (req, res) => {
 });
 
 
-router.post('/login', (req, res) => {
+router.post('/login', async (req, res) => {
+    let result = await authService.login(req.body);
+
+    console.log(result);
+
+    if(result){
+        res.redirect('/')
+    } else {
+        res.redirect('/not-found')
+    };
 
 });
 
