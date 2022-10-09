@@ -1,6 +1,7 @@
 const express = require('express');
 const routes = require('./routes');
 const { initializeDatabase } = require('./config/database');
+const cookieParser = require('cookie-parser');
 const app = express();
 const port = 5000;
 
@@ -13,7 +14,7 @@ app.use('/static', express.static('public'));
 // MIDDLEWARES
 app.use(express.urlencoded({ extended: false }));
 app.use(routes);
-
+app.use(cookieParser());
 
 initializeDatabase()
     .then(() => {

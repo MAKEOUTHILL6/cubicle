@@ -28,9 +28,8 @@ router.get('/login', (req, res) => {
 router.post('/login', async (req, res) => {
     let result = await authService.login(req.body);
 
-    console.log(result);
-
     if(result){
+        res.cookie('session', result);
         res.redirect('/')
     } else {
         res.redirect('/not-found')

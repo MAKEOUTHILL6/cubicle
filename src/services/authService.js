@@ -23,7 +23,6 @@ exports.register = async ({ username, password, repeatPassword }) => {
 };
 
 
-
 exports.login = async ({ username, password }) => {
     let user = await User.findOne({ username });
 
