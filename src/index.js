@@ -4,6 +4,7 @@ const { initializeDatabase } = require('./config/database');
 const cookieParser = require('cookie-parser');
 const app = express();
 const port = 5000;
+const {auth} = require('./middlewares/authMiddleware');
 
 // TEMPLATE ENGINE
 require('./config/handlebars')(app);
@@ -15,6 +16,7 @@ app.use('/static', express.static('public'));
 app.use(express.urlencoded({ extended: false }));
 app.use(routes);
 app.use(cookieParser());
+app.use(auth);
 
 initializeDatabase()
     .then(() => {

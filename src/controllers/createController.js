@@ -22,6 +22,23 @@ router.get('/details/:id', async (req, res) => {
     res.render('details', {
         cube,
     });
+});
+
+
+router.get('/edit/:id', async (req, res) => {
+    let cube = await Cube.findById(req.params.id).lean();
+
+    cube[`difficultyLevel${cube.difficultyLevel}`] = true;
+
+    res.render('editCubePage', { cube });
+});
+
+
+router.post('/edit/:id', async (req, res) => {
+
+    await cubeService.edit(req.params.id, req.body);
+
+    res.redirect(`/cube/details/${req.params.id}`);
 })
 
 module.exports = router;
