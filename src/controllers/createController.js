@@ -28,6 +28,7 @@ router.get('/details/:id', async (req, res) => {
 router.get('/edit/:id', async (req, res) => {
     let cube = await Cube.findById(req.params.id).lean();
 
+
     cube[`difficultyLevel${cube.difficultyLevel}`] = true;
 
     res.render('editCubePage', { cube });

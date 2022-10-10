@@ -14,9 +14,9 @@ app.use('/static', express.static('public'));
 
 // MIDDLEWARES
 app.use(express.urlencoded({ extended: false }));
-app.use(routes);
 app.use(cookieParser());
 app.use(auth);
+app.use(routes);
 
 initializeDatabase()
     .then(() => {

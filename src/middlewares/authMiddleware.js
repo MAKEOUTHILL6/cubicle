@@ -1,10 +1,26 @@
+const jwt = require('jsonwebtoken');
+const { promisify } = require('util');
+const { sessionName, secret } = require('../config/appConfig');
 
+const jwtVerify = promisify(jwt.verify);
 
-exports.auth = (req, res, next) => {
+exports.auth = async (req, res, next) => {
 
-    let token = req.cookies['session'];
+    let token = req.cookies[sessionName];
 
-    console.log(token);
+    if (token) {
+        try {
+            let decodedToken = await jwtVerify(token, secret);
+
+            // MIDDLEWARE TO USE THE USER TOKEN EVERYWHERE 
+            req.user = decodedToken;
+        }
+        catch(err) {
+            console.log(err);
+            res.redirect('/not-found');
+        }
+
+    }
 
     next();
-}
+};

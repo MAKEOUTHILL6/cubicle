@@ -1,9 +1,7 @@
 const { User } = require('../models/User');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
-
-const secret = 'SecretPassword';
-const saltRounds = 10;
+const {saltRounds, secret} = require('../config/appConfig');
 
 exports.register = async ({ username, password, repeatPassword }) => {
 
