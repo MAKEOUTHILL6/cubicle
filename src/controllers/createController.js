@@ -23,8 +23,11 @@ router.get('/details/:id', async (req, res) => {
     // GET THE CUBE AND HIS ACCESSORIES RELATIONS IN THE SERVICE OR YOU CAN CHAIN THE POPULATE
     let cube = await cubeService.getOne(currentCubeId).lean();
 
+    const isOwner = cube.owner == req.user?._id;
+
     res.render('details', {
         cube,
+        isOwner,
     });
 });
 
@@ -47,6 +50,24 @@ router.post('/edit/:id', isAuth, async (req, res) => {
     await cubeService.edit(req.params.id, req.body);
 
     res.redirect(`/cube/details/${req.params.id}`);
-})
+});
+
+
+router.get('/delete/:id', async (req, res) => {
+
+    let cube = await Cube.findById(req.params.id).lean();
+
+    cube[`difficultyLevel${cube.difficultyLevel}`] = true;
+
+    res.render('deleteCubePage', { cube });
+});
+
+
+router.post('/delete/:id', async (req, res) => {
+
+    await Cube.findByIdAndDelete(req.params.id);
+
+    res.redirect('/');
+});
 
 module.exports = router;

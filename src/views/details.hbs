@@ -4,16 +4,23 @@
     <p><span>Description:</span>{{cube.description}}</p>
     <p><span>Difficulty level:</span> {{cube.difficultyLevel}}</p>
     <a class="btn" href="/">Back</a>
+    {{#if user}}
     <a class="btn" href="/accessory/attach/{{cube._id}}">Attach Sticker</a>
+
+    {{#if isOwner}}
     <a class="btn" href="/cube/edit/{{cube._id}}">Edit</a>
+    <a class="btn" href="/cube/delete/{{cube._id}}">Delete</a>
+    {{/if}}
+
+    {{/if}}
 
 </div>
 
 <h2>Accessories</h2>
 <div class="accessories">
     {{#each cube.accessories}}
-        {{>cubeAccessory}}
+    {{>cubeAccessory}}
     {{else}}
-        <h3 class="italic">This cube has no accessories yet...</h3>
+    <h3 class="italic">This cube has no accessories yet...</h3>
     {{/each}}
 </div>
