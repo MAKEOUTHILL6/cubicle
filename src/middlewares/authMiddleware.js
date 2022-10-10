@@ -14,6 +14,9 @@ exports.auth = async (req, res, next) => {
 
             // MIDDLEWARE TO USE THE USER TOKEN EVERYWHERE 
             req.user = decodedToken;
+
+            // GET AHOLD OF THE TOKEN IN VIEWS 
+            res.locals.user = decodedToken;
         }
         catch(err) {
             console.log(err);
