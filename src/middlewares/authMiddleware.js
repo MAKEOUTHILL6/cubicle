@@ -24,3 +24,12 @@ exports.auth = async (req, res, next) => {
 
     next();
 };
+
+
+exports.isAuth = (req, res, next) => {
+    if(!req.user){
+        return res.redirect('/not-found');
+    }
+
+    next();
+};

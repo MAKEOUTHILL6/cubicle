@@ -1,14 +1,18 @@
 const router = require('express').Router();
-const {Cube} = require('../models/Cube');
+const { Cube } = require('../models/Cube');
 const cubeService = require('../services/cubeService');
+const { isAuth } = require('../middlewares/authMiddleware');
 
 
-router.get('/create', (req, res) => {
+router.get('/create', isAuth, (req, res) => {
     res.render('create');
 });
 
-router.post('/create', async (req, res) => {
-    let cube = await Cube.create(req.body);
+router.post('/create', isAuth, async (req, res) => {
+    const cube = req.body;
+    cube.owner = req.user._id;
+    await Cube.create(cube);
+
     res.redirect('/');
 });
 
@@ -25,9 +29,12 @@ router.get('/details/:id', async (req, res) => {
 });
 
 
-router.get('/edit/:id', async (req, res) => {
+router.get('/edit/:id', isAuth, async (req, res) => {
     let cube = await Cube.findById(req.params.id).lean();
 
+    if (cube.owner != req.user._id) {
+        return res.redirect('/not-found');
+    };
 
     cube[`difficultyLevel${cube.difficultyLevel}`] = true;
 
@@ -35,7 +42,7 @@ router.get('/edit/:id', async (req, res) => {
 });
 
 
-router.post('/edit/:id', async (req, res) => {
+router.post('/edit/:id', isAuth, async (req, res) => {
 
     await cubeService.edit(req.params.id, req.body);
 
