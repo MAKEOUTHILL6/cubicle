@@ -22,8 +22,8 @@
                 <li><a href="/auth/logout">Logout</a></li>
 
                 {{else}}
-                
-                <li><a href="/auth/login">Login</a></li> 
+
+                <li><a href="/auth/login">Login</a></li>
                 <li><a href="/auth/register">Register</a></li>
 
                 {{/if}}
@@ -32,6 +32,12 @@
         </header>
 
         <main>
+            {{#if error}}
+                <div id="notifications">
+                    <p id="notification-message">{{error}}</p>
+                </div> 
+            {{/if}}
+
             {{{body}}}
         </main>
 

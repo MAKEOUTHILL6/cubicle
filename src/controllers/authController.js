@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const authService = require('../services/authService');
-const {sessionName} = require('../config/appConfig');
+const { sessionName } = require('../config/appConfig');
 const { isEmail } = require('../middlewares/validatorMiddleware');
 // const {isEmail} = require('../utils/validators');
 
@@ -9,11 +9,11 @@ router.get('/register', (req, res) => {
     res.render('registerPage');
 });
 
-router.post('/register', isEmail, async (req, res) => {
+router.post('/register', isEmail, async (req, res, next) => {
 
-    // if(!isEmail(req.body.username)){   
-    //     return res.redirect('/not-found');
-    // };   
+    if(!isEmail(req.body.username)){   
+        next({message: 'Invalid email'});
+    };   
 
     let createdUser = await authService.register(req.body);
 
@@ -33,15 +33,21 @@ router.get('/login', (req, res) => {
 
 
 router.post('/login', async (req, res) => {
-    let result = await authService.login(req.body);
+    try {
+        let result = await authService.login(req.body);
 
-    if(result){
-        res.cookie(sessionName, result, {httpOnly: true});
-        res.redirect('/')
-    } else {
-        res.redirect('/not-found')
-    };
+        if (result) {
+            res.cookie(sessionName, result, { httpOnly: true });
+            res.redirect('/')
+        } else {
+            res.redirect('/not-found')
+        };
 
+    } catch (error) {
+        res.status(400).res.render('loginPage', {
+            error: error.message,
+        });
+    }
 });
 
 

@@ -2,15 +2,19 @@ const router = require('express').Router();
 const { Cube } = require('../models/Cube');
 const cubeService = require('../services/cubeService');
 const { isAuth } = require('../middlewares/authMiddleware');
+const {body, validationResult} = require('express-validator');
 
 
 router.get('/create', isAuth, (req, res) => {
     res.render('create');
 });
 
-router.post('/create', isAuth, async (req, res) => {
+router.post('/create', isAuth, body('name', 'Name is required!').not().isEmpty(), body('description').isLength({min: 5, max: 120}), async (req, res) => {
     const cube = req.body;
     cube.owner = req.user._id;
+
+    const errors = validationResult(req);
+
     await Cube.create(cube);
 
     res.redirect('/');
